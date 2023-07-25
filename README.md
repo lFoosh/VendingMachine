@@ -6,8 +6,7 @@ with everyone's bank accounts, allowing customers to purchase products from thei
 
 ### Application requirements
 
-1. The vending machine dispenses beverages, candy, chips, and gum.
-   - Each vending machine item has a Name and a Price.
+1. The vending machine dispenses beverages, candy, munchies, and gum.
 2. A main menu must display when the software runs, presenting the following options:
     > ```
     > (1) Display Vending Machine Items
@@ -15,7 +14,7 @@ with everyone's bank accounts, allowing customers to purchase products from thei
     > (3) Exit
     > ```
 3. The vending machine reads its inventory from an input file when the vending machine
-starts.
+starts. 
 4. The vending machine is automatically restocked each time the application runs.
 5. When the customer selects "(1) Display Vending Machine Items", they're presented
 with a list of all items in the vending machine with its quantity remaining:
@@ -23,8 +22,8 @@ with a list of all items in the vending machine with its quantity remaining:
     - Each slot in the vending machine has enough room for 5 of that product.
     - Every product is initially stocked to the maximum amount.
     - A product that has run out must indicate that it's SOLD OUT.
-6. When the customer selects "(2) Purchase", they're guided through the purchasing
-process menu:
+6. When the customer selects "(2) Purchase", they start with a current money provided of 0.00.
+They're guided through the purchasing process menu:
     ```
     Current Money Provided: $2.00
     
@@ -49,12 +48,15 @@ process menu:
         - If a customer selects a valid product, it's dispensed to the customer.
         - Dispensing an item prints the item name, cost, and the money
         remaining. Dispensing also returns a message:
-          - All chip items print "Crunch Crunch, Yum!"
-          - All candy items print "Munch Munch, Yum!"
-          - All drink items print "Glug Glug, Yum!"
-          - All gum items print "Chew Chew, Yum!"
-        - After the machine dispenses the product, the machine must update its balance
+          - All Munchy items print "Crunch Crunch, Yum!"
+          - All Candy items print "Yummy Yummy, So Sweet!"
+          - All Drink items print "Glug Glug, Yum!"
+          - All Gum items print "Chew Chew, Yum!"
+        - After the machine dispenses the product, the machine must update the customer's balance
         accordingly and return the customer to the Purchase menu.
+        - To celebrate August, this machine is running a BOGODO sale, buy one
+        item, get one dollar off any second item.
+            - After an item is purchased with the discount the discount resets. For example, if a third item is purchased a discount IS NOT applied. If a fourth item is purchased the discount DOES apply, and so on.
     3. Selecting "(3) Finish Transaction" allows the customer to complete the
     transaction and receive any remaining change.
         - The machine returns the customer's money using nickels, dimes, and quarters
@@ -84,7 +86,7 @@ input and output to as few classes as possible.
 11. Provide unit tests demonstrating that your code works correctly.
 ___
 ### Vending machine data file
-The input file that stocks the vending machine products is a pipe `|` delimited file. Each line is a separate product in the file and follows this format:
+The input file that stocks the vending machine products is a comma-separated values (CSV) file. Each line is a separate product in the file and follows this format:
 
 | Column Name   | Description |
 ----------------|-------------|
@@ -94,39 +96,46 @@ The input file that stocks the vending machine products is a pipe `|` delimited 
 | Type          | The product type for this row.                                     |
 
 For example:
-
 ```
-A1|Potato Crisps|3.05|Chip
-B1|Moonpie|1.80|Candy
-B2|Cowtales|1.50|Candy
-C1|Cola|1.25|Drink
+A1,U-Chews,1.65,Gum
+A2,Ginger Ayle,1.85,Drink
+A3,Snykkers,4.25,Candy
+A4,Chippos,3.85,Munchy
 ```
 
-**An input file is in your repository: `vendingmachine.csv`.**
+**An input file is in your repository: `main.csv`.**
+An alternate input file, `alternate.csv` is provided for testing purposes.
+####Challenge
+To harden your program against errors, a third file, `problem.csv`, is provided. This file has a number of errors in it. Make sure it does not cause your program to crash. This will require changes to the file reading processing. 
 
  ---
 ### Sales report
-The output sales report file is also pipe-delimited for consistency. Each line is a separate product with the number of sales for the applicable product. At the end of the report is a blank line followed by the **TOTAL SALES** dollar amount indicating the gross sales from the vending machine.
+The output sales report file is pipe-delimited for consistency. Each line is a separate product with the number of sales for the applicable product. At the end of the report is a blank line followed by the **TOTAL SALES** dollar amount indicating the gross sales from the vending machine.
+
+Items purchased at a discount through the BOGODO sale are the last number in the row for each item in the following format:
+
+Taste Elevator Sales Report
+item|amount sold full price|amount sold with BOGODO discount
 
 For example:
 
 >```
->Potato Crisps|0
->Stackers|1
->Grain Waves|0
->Cloud Popcorn|0
->Moonpie|3
->Cowtales|0
->Wonka Bar|0
->Crunchie|0
->Cola|2
->Dr. Salt|0
->Mountain Melter|0
->Heavy|0
->U-Chews|0
->Little League Chew|1
->Chiclets|1
->Triplemint|0
+>Potato Crisps|0|0
+>Stackers|1|0
+>Grain Waves|0|0
+>Cloud Popcorn|0|0
+>Moonpie|3|1
+>Cowtales|0|0
+>Wonka Bar|0|0
+>Crunchie|0|0
+>Cola|2|1
+>Dr. Salt|0|0
+>Mountain Melter|0|0
+>Heavy|0|0
+>U-Chews|0|0
+>Little League Chew|1|0
+>Chiclets|1|0
+>Triplemint|0|0
 >
->**TOTAL SALES** $11.05
+>**TOTAL SALES** $31.05
 >```
