@@ -33,11 +33,11 @@ They're guided through the purchasing process menu:
     
     ```
 7. The purchase process flow is as follows:
-    1. Selecting "(1) Feed Money" allows the customer to repeatedly feed money into the
+    - Selecting "(1) Feed Money" allows the customer to repeatedly feed money into the
     machine in whole dollar amounts.
         - The "Current Money Provided" indicates how much money the customer
         has fed into the machine.
-    2. Selecting "(2) Select Product" allows the customer to select a product to
+    - Selecting "(2) Select Product" allows the customer to select a product to
     purchase.
         - Show the list of products available and allow the customer to enter
         a code to select an item.
@@ -57,12 +57,12 @@ They're guided through the purchasing process menu:
         - To celebrate August, this machine is running a BOGODO sale, buy one
         item, get one dollar off any second item.
             - After an item is purchased with the discount the discount resets. For example, if a third item is purchased a discount IS NOT applied. If a fourth item is purchased the discount DOES apply, and so on.
-    3. Selecting "(3) Finish Transaction" allows the customer to complete the
+    - Selecting "(3) Finish Transaction" allows the customer to complete the
     transaction and receive any remaining change.
         - The machine returns the customer's money using nickels, dimes, and quarters
         (using the smallest amount of coins possible).
         - The machine's current balance updates to $0 remaining.
-    4. After completing their purchase, the user returns to the "Main" menu to
+    - After completing their purchase, the user returns to the "Main" menu to
     continue using the vending machine.
 8. The vending machine logs all transactions to prevent theft from the vending machine.
    - Each purchase must generate a line in a file called `Log.txt`.
@@ -105,7 +105,7 @@ A4,Chippos,3.85,Munchy
 
 **An input file is in your repository: `main.csv`.**
 An alternate input file, `alternate.csv` is provided for testing purposes.
-####Challenge
+#### Challenge
 To harden your program against errors, a third file, `problem.csv`, is provided. This file has a number of errors in it. Make sure it does not cause your program to crash. This will require changes to the file reading processing. 
 
  ---
@@ -118,7 +118,6 @@ Taste Elevator Sales Report
 item|amount sold full price|amount sold with BOGODO discount
 
 For example:
-
 >```
 >Potato Crisps|0|0
 >Stackers|1|0
