@@ -1,6 +1,7 @@
 package com.techelevator;
 
-import com.techelevator.view.Menu;
+// Menu is provided to you as a suggested class to handle user input
+// Build out a menu class to start
 
 public class VendingMachineCLI {
 
@@ -14,9 +15,17 @@ public class VendingMachineCLI {
 		this.menu = menu;
 	}
 
+	public static void main(String[] args) {
+		// You will need to create a Menu class to handle display.
+		//Menu menu = new Menu();
+		VendingMachineCLI cli = new VendingMachineCLI(menu);
+		cli.run();
+	}
+
 	public void run() {
 		while (true) {
-			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
+			// Use a method from your Menu class to initialize this value
+			String choice = "initalize this here";
 
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
 				// display vending machine items
@@ -24,11 +33,5 @@ public class VendingMachineCLI {
 				// do purchase
 			}
 		}
-	}
-
-	public static void main(String[] args) {
-		Menu menu = new Menu(System.in, System.out);
-		VendingMachineCLI cli = new VendingMachineCLI(menu);
-		cli.run();
 	}
 }
