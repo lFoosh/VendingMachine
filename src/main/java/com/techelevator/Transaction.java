@@ -1,26 +1,50 @@
 package com.techelevator;
 
 public class Transaction {
+private Product product;
+private double moneyInserted;
+private double currentMoney;
+
+private double change;
+
+    public Transaction(Product product, double moneyInserted) {
+        this.product = product;
+        this.moneyInserted = moneyInserted;
+    }
+
+    public double feedMoney( double moneyInserted){
+
+        currentMoney += moneyInserted;
+
+        //TODO log function
+
+        return currentMoney;
+    }
+
+    public void purchaseItem(){
+
+        //TODO current money - price of purchased item
+        //TODO update quantity of purchased item
+        //TODO Log the transaction
 
 
-    private double currentMoney;
-    private boolean isSale;
+    }
+    public void returnChange(){
+        int quarters = 0;
+        int dimes = 0;
+        int nickles = 0;
 
-    //TODO return change due if currentMoney > 0 after transaction is complete
-    public void returnChangeDue(){
+        while (currentMoney >)
+            //TODO Figure out how to return change in Quarters > dimes > nickles
 
     }
 
-    public void feedMoney(){
 
+    public double getCurrentMoney() {
+        return currentMoney;
     }
-    public void selectProduct(){
 
-    }
-    public void purchaseProduct(){
 
-    }
-    public void onGoingSale(){
-
-    }
 }
+
+
