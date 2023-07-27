@@ -16,6 +16,7 @@ public class Inventory {
     public Inventory(String filename) {
         this.products = new HashMap<>();
         try {
+            // Read each line from the inventory file
             List<String> lines = Files.readAllLines(Paths.get(filename));
             for (String line : lines) {
                 String[] parts = line.split(",");
@@ -24,17 +25,25 @@ public class Inventory {
                 double price = Double.parseDouble(parts[2]);
                 String type = parts[3];
                 Product product;
+                // Create a new product based on the type read from the file
+
                 if (type.equals("Candy")) {
                     product = new Candy(slotLocation, name, price);
+
                 } else if (type.equals("Drink")) {
                     product = new Drink(slotLocation, name, price);
+
                 } else if (type.equals("Gum")) {
                     product = new Gum(slotLocation, name, price);
+
                 } else if (type.equals("Munchy")) {
                     product = new Munchy(slotLocation, name, price);
+
                 } else {
                     throw new IllegalArgumentException("Invalid product type: " + type);
                 }
+                // Add the product to the map of products, using the slot location as the key
+
                 products.put(slotLocation, product);
             }
         } catch (IOException e) {
@@ -46,8 +55,6 @@ public class Inventory {
         return this.products;
     }
 
-
-    // Add methods here to get products, buy products, etc.
 }
 
 /*public class Inventory {

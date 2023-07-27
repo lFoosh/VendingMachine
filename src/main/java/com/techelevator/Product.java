@@ -53,7 +53,7 @@ public abstract class Product {
     // Method to decrease the quantity of a product
     public void decreaseQuantity() {
         if (quantity > 0) {
-            quantity--;
+            quantity--; // Decrease quantity of product by 1
         } else {
             System.out.println("The product is out of stock.");
         }
