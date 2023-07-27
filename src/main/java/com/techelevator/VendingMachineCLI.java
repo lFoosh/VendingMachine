@@ -25,12 +25,15 @@ public class VendingMachineCLI {
 	public void run() {
 		while (true) {
 			// Use a method from your Menu class to initialize this value
-			String choice = "initalize this here";
+			String choice = "initialize this here";
 
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
 				// display vending machine items
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
 				// do purchase
+			}
+			else{
+				break;
 			}
 		}
 	}
