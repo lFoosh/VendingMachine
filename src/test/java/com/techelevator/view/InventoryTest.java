@@ -38,5 +38,10 @@ public class InventoryTest {
         }
 
         assertEquals(16, productCount);
+
+        /*TODO Check a range of values IE
+        A1,U-Chews,1.65,Gum
+        A2,Ginger Ayle,1.85,Drink
+        A3,Snykkers,4.25,Candy*/
     }
 }
