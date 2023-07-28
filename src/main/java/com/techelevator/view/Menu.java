@@ -1,4 +1,4 @@
-package com.techelevator;
+package com.techelevator.view;
 
 import java.io.InputStream;
 import java.io.PrintStream;

@@ -1,19 +1,7 @@
 package com.techelevator.view;
 
-import com.techelevator.Inventory;
-import com.techelevator.Product;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import static org.junit.Assert.*;
-
+import com.techelevator.controller.Inventory;
+import com.techelevator.model.Product;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,7 +12,7 @@ public class InventoryTest {
 
     @Before
     public void setup() {
-        inventory = new Inventory("main.csv");  // replace with actual path
+        inventory = new Inventory("alternate.csv");  // use main or alternate .csv
     }
 
     @Test
