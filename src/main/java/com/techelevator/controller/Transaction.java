@@ -1,24 +1,37 @@
-package com.techelevator;
+package com.techelevator.controller;
+
+import com.techelevator.model.Product;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class Transaction {
-    private double currentMoney;
+    private BigDecimal currentMoney;
     private String logFile = "Log.txt";
 
-    private int itemsPurchased = 0; // TODO increment item count ->  this check if its % 2 = 0 -> adjust price
+    private int itemsPurchased = 0;
 
     public Transaction() {
-        this.currentMoney = 0.0; // Initialize current money to 0
+        this.currentMoney = BigDecimal.valueOf(0.0); // Initialize current money to 0
     }
 
     // Function to feed money into the vending machine
-    public double feedMoney(double moneyInserted) {  //TODO Make test to check ~~
-        currentMoney += moneyInserted; // Increase current money by the inserted amount
-        log("FEED MONEY: ", moneyInserted, currentMoney); // Log the transaction
+    public BigDecimal feedMoney(String moneyInserted) {  //TODO Make test to check ~~
+
+
+        BigDecimal amount = new BigDecimal(moneyInserted);
+
+        if(amount.compareTo(new BigDecimal(0.00)) >= 0) {
+            currentMoney = currentMoney.add(amount); // Increase current money by the inserted amount
+            log("FEED MONEY: ", amount, currentMoney); // Log the transaction
+
+        } else {
+
+            System.out.println("Invalid amount of money inserted: negative number entered");
+        }
         return currentMoney; // Return the new total amount of money
     }
 
@@ -26,15 +39,28 @@ public class Transaction {
     public void purchaseItem(Product product) {
         // Check if the product exists and if the current money is enough to buy it
 
-        if (product != null && currentMoney >= product.getPrice()) {
+        if (product != null && (currentMoney.compareTo(product.getPrice())>=0)) {
             this.itemsPurchased ++;
-            double discount = this.itemsPurchased % 2 == 0 ? 1 : 0;
-            double price = product.getPrice() - discount; // this is applying discount for every 2
+            BigDecimal discount;
+            if (this.itemsPurchased % 2 == 0) {
+                discount = BigDecimal.ONE;
 
-            //TODO Make print statement to declare savings in some way
+                System.out.println();
+                System.out.println("BOGODO Sale!!");
+                System.out.println("You saved $1.00!!");
 
-            log("PURCHASE: " + product.getName() + " " + product.getSlotLocation(), price, currentMoney - price ); // Log the transaction
-            currentMoney -= price; // Decrease current money by the product price
+                System.out.println();
+            }else{
+                discount = BigDecimal.ZERO;
+            }
+
+            //double price = product.getPrice() - discount; // this is applying discount for every 2
+            BigDecimal price = product.getPrice().subtract(discount);
+
+            currentMoney = currentMoney.subtract(price); // Decrease current money by the product price
+
+            log("PURCHASE: " + product.getName() + " " + product.getSlotLocation(), price, currentMoney); // Log the transaction
+
             product.decreaseQuantity(); // Decrease the product quantity
 
         } else {
@@ -44,39 +70,39 @@ public class Transaction {
     }
 
     // Function to return the change
-    public void returnChange() {
+    public String returnChange() {
         int quarters = 0;
         int dimes = 0;
         int nickels = 0;
 
         // Determine how many quarters, dimes, and nickels to return
-        while (currentMoney >= 0.25) {
+        while (currentMoney.compareTo(new BigDecimal(.25)) >= 0) {
             quarters++;
-            currentMoney -= 0.25;
+          currentMoney =   currentMoney.subtract(BigDecimal.valueOf(.25));
         }
-        while (currentMoney >= 0.10) {
+        while (currentMoney.compareTo(BigDecimal.valueOf(.10)) >= 0) {
             dimes++;
-            currentMoney -= 0.10;
+           currentMoney =  currentMoney.subtract(BigDecimal.valueOf(.10));
         }
-        while (currentMoney >= 0.05) {
+        while (currentMoney.compareTo(BigDecimal.valueOf(.05)) >= 0) {
             nickels++;
-            currentMoney -= 0.05;
+         currentMoney =    currentMoney.subtract(BigDecimal.valueOf(.05));
         }
 
         // Log the returned change
-        log("GIVE CHANGE: ", currentMoney, 0);
+        log("GIVE CHANGE: ", currentMoney, BigDecimal.valueOf(0));
         // Print the returned change
-        System.out.println("Change returned: Quarters: " + quarters + ", Dimes: " + dimes + ", Nickels: " + nickels);
+        return  "Change returned: Quarters: " + quarters + ", Dimes: " + dimes + ", Nickels: " + nickels;
     }
 
     // Get the current money
-    public double getCurrentMoney() {
+    public BigDecimal getCurrentMoney() {
         return currentMoney;
     }
 
 
     // Function to log the transactions
-    private void log(String action, double amount, double newBalance) {
+    private void log(String action, BigDecimal amount, BigDecimal newBalance) {
         // We are using try-with-resources statement, which ensures that each resource is closed at the end of the statement.
         // FileWriter is used to write character-oriented data to a file.
         // BufferedWriter writes text to a character-output stream, buffering characters so as to provide for the efficient writing of single characters, arrays, and strings.

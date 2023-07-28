@@ -1,13 +1,16 @@
-package com.techelevator;
+package com.techelevator.model;
 
+
+import java.math.BigDecimal;
 
 public abstract class Product {
     private String slotLocation;
     private String name;
-    private double price;
+    //private double price;
+    private BigDecimal price;
     private int quantity;
 
-    public Product(String slotLocation, String name, double price) {
+    public Product(String slotLocation, String name,BigDecimal price) {
         this.slotLocation = slotLocation;
         this.name = name;
         this.price = price;
@@ -31,11 +34,11 @@ public abstract class Product {
         this.name = name;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -56,7 +59,7 @@ public abstract class Product {
             quantity--; // Decrease quantity of product by 1
         } else {
             System.out.println("The product is out of stock.");
-        }
+        } //TODO Make test to see if product goes out of stock after 5
     }
     @Override
     public String toString() {

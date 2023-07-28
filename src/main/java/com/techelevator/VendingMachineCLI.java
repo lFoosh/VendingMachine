@@ -40,6 +40,11 @@ public class VendingMachineCLI {
 }*/
 package com.techelevator;
 
+import com.techelevator.controller.Inventory;
+import com.techelevator.controller.Transaction;
+import com.techelevator.model.Product;
+import com.techelevator.view.Menu;
+
 import java.util.Map;
 
 
@@ -65,6 +70,7 @@ public class VendingMachineCLI {
 		this.menu = menu;
 		// Load inventory from given file path
 		this.inventory = new Inventory(inventoryFilePath);
+
 		// Create a new transaction object
 		this.transaction = new Transaction();
 	}
@@ -73,6 +79,7 @@ public class VendingMachineCLI {
 	public static void main(String[] args) {
 		// Create a new Menu object
 		Menu menu = new Menu(System.in, System.out);
+
 		// Create a new VendingMachineCLI object, start the CLI with "main.csv" as the inventory file
 		VendingMachineCLI cli = new VendingMachineCLI(menu, "main.csv");
 		cli.run();
@@ -99,28 +106,36 @@ public class VendingMachineCLI {
 				while (true) {
 					// Display current money and purchase menu, get user's purchase choice
 					System.out.println("Current Money Provided: $" + String.format("%.2f", transaction.getCurrentMoney()));
+
 					String purchaseChoice = (String)menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
 
 					if (purchaseChoice.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
 						// get money from user and feed into machine
 						System.out.println("Enter amount to feed into machine: ");
-						double amount = Double.parseDouble(menu.getUserInput());
+						String amount = (menu.getUserInput());
 						transaction.feedMoney(amount);
 
 					} else if (purchaseChoice.equals(PURCHASE_MENU_OPTION_SELECT_PRODUCT)) {
+
 						// get product code from user and attempt to purchase product
 						System.out.println("Enter product code: ");
-						String productCode = menu.getUserInput();
+						String productCode = menu.getUserInput().toUpperCase();
 						Product productToPurchase = inventory.getProducts().get(productCode);
 
-						if (productToPurchase != null) {
+						if (productToPurchase != null && productToPurchase.getQuantity() > 0) {
+
+
+							String message = productToPurchase.getMessage();
+							System.out.println(message);
 
 							System.out.println("You selected " + productToPurchase.getName() + ". The cost is $" + String.format("%.2f", productToPurchase.getPrice()));
 							transaction.purchaseItem(productToPurchase);
 
-							//Prints message depending on class of purchase
-							String message = productToPurchase.getMessage();
-							System.out.println(message);
+
+
+						} else if (productToPurchase != null) {
+
+							System.out.println("This item is out of stock!");
 
 						} else {
 							System.out.println("Invalid product code. Please try again.");
@@ -128,7 +143,7 @@ public class VendingMachineCLI {
 					} else if (purchaseChoice.equals(PURCHASE_MENU_OPTION_FINISH_TRANSACTION)) {
 
 						// finish the transaction, return change and exit purchase menu
-						transaction.returnChange();
+						System.out.println(transaction.returnChange());
 						System.out.println("Thank you for your purchase, Have a nice Day!");
 						break;
 					}

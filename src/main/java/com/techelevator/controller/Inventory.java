@@ -1,8 +1,10 @@
-package com.techelevator;
+package com.techelevator.controller;
 
 
 
-import java.io.ByteArrayOutputStream;
+import com.techelevator.model.*;
+
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.io.IOException;
@@ -22,7 +24,7 @@ public class Inventory {
                 String[] parts = line.split(",");
                 String slotLocation = parts[0];
                 String name = parts[1];
-                double price = Double.parseDouble(parts[2]);
+                BigDecimal price = new BigDecimal(parts[2]);
                 String type = parts[3];
                 Product product;
                 // Create a new product based on the type read from the file
