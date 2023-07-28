@@ -91,7 +91,8 @@ public class VendingMachineCLI {
 				for (String slot : products.keySet()) {
 					Product product = products.get(slot);
 					// Print each product with formatted price
-					System.out.println(slot + ", " + product.getName() + ", " + String.format("%.2f", product.getPrice()) + ", " + product.getQuantity() + ", " + product.getClass().getSimpleName());
+
+					System.out.println(slot + ", " + product.toString());
 				}
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
 				// enter the purchase menu
@@ -113,13 +114,19 @@ public class VendingMachineCLI {
 						Product productToPurchase = inventory.getProducts().get(productCode);
 
 						if (productToPurchase != null) {
+
 							System.out.println("You selected " + productToPurchase.getName() + ". The cost is $" + String.format("%.2f", productToPurchase.getPrice()));
 							transaction.purchaseItem(productToPurchase);
+
+							//Prints message depending on class of purchase
+							String message = productToPurchase.getMessage();
+							System.out.println(message);
 
 						} else {
 							System.out.println("Invalid product code. Please try again.");
 						}
 					} else if (purchaseChoice.equals(PURCHASE_MENU_OPTION_FINISH_TRANSACTION)) {
+
 						// finish the transaction, return change and exit purchase menu
 						transaction.returnChange();
 						System.out.println("Thank you for your purchase, Have a nice Day!");
