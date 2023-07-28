@@ -9,6 +9,8 @@ public class Transaction {
     private double currentMoney;
     private String logFile = "Log.txt";
 
+    private int itemsPurchased = 0; // TODO increment item count ->  this check if its % 2 = 0 -> adjust price
+
     public Transaction() {
         this.currentMoney = 0.0; // Initialize current money to 0
     }
@@ -23,9 +25,16 @@ public class Transaction {
     // Function to purchase a product
     public void purchaseItem(Product product) {
         // Check if the product exists and if the current money is enough to buy it
+
         if (product != null && currentMoney >= product.getPrice()) {
-            log("PURCHASE: " + product.getName() + " " + product.getSlotLocation(), product.getPrice(), currentMoney - product.getPrice()); // Log the transaction
-            currentMoney -= product.getPrice(); // Decrease current money by the product price
+            this.itemsPurchased ++;
+            double discount = this.itemsPurchased % 2 == 0 ? 1 : 0;
+            double price = product.getPrice() - discount; // this is applying discount for every 2
+
+            //TODO Make print statement to declare savings in some way
+
+            log("PURCHASE: " + product.getName() + " " + product.getSlotLocation(), price, currentMoney - price ); // Log the transaction
+            currentMoney -= price; // Decrease current money by the product price
             product.decreaseQuantity(); // Decrease the product quantity
 
         } else {
