@@ -14,7 +14,7 @@ public class Transaction {
     }
 
     // Function to feed money into the vending machine
-    public double feedMoney(double moneyInserted) {
+    public double feedMoney(double moneyInserted) {  //TODO Make test to check ~~
         currentMoney += moneyInserted; // Increase current money by the inserted amount
         log("FEED MONEY: ", moneyInserted, currentMoney); // Log the transaction
         return currentMoney; // Return the new total amount of money
@@ -65,7 +65,7 @@ public class Transaction {
         return currentMoney;
     }
 
- 
+
     // Function to log the transactions
     private void log(String action, double amount, double newBalance) {
         // We are using try-with-resources statement, which ensures that each resource is closed at the end of the statement.

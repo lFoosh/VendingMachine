@@ -60,7 +60,7 @@ public abstract class Product {
     }
     @Override
     public String toString() {
-        return  getName() + ", " + getPrice() + ", " + getClass().getSimpleName();
+        return  getName() + ", " + getPrice() + ", " + getClass().getSimpleName(); //Simple will make sure not to call the package and just the class(Product Types)
     }
 
 
