@@ -4,12 +4,15 @@ import com.techelevator.model.Product;
 
 import java.io.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Map;
 
 public class Transaction {
     private BigDecimal currentMoney;
     private String logFile = "Log.txt";
+
+    private Inventory inventory;
 
     private int itemsPurchased = 0;
 
@@ -20,7 +23,7 @@ public class Transaction {
     }
 
     // Function to feed money into the vending machine
-    public BigDecimal feedMoney(String moneyInserted) {  //TODO Make test to check ~~
+    public BigDecimal feedMoney(String moneyInserted) {
 
 
         BigDecimal amount = new BigDecimal(moneyInserted);
@@ -116,7 +119,10 @@ public class Transaction {
 
 
             //creates the string that will be written to log.txt
-           String writeToFile = LocalDateTime.now() + " " + action + " " + String.format("$%.2f", amount) + " $" + String.format("%.2f", newBalance);
+            String localTime = String.valueOf(LocalTime.now());
+            String localDate = String.valueOf(LocalDate.now());
+           // localTime = localDate.substring(0,8);
+           String writeToFile = localDate + " " + localTime+ " " + action + " " + String.format("$%.2f", amount) + " $" + String.format("%.2f", newBalance);
 
            //adds a new line at the end of each added string
             log.write(writeToFile + "\n");
@@ -132,7 +138,26 @@ public class Transaction {
 
     public void salesReport(Map<String, Product> inventory){
 
-        //for (Product product : inventory)
+        String localTime = String.valueOf(LocalTime.now());
+        String localDate = String.valueOf(LocalDate.now());
+        localTime = localDate.substring(0,8);
+
+        try (PrintWriter reportPrint = new PrintWriter(localDate + localTime + "SalesReport");){
+
+
+            Map<String, Product> products = inventory.getProducts();
+
+            for (String slot : products.keySet()) {
+                Product product = products.get(slot);
+                // Print each product with formatted price
+
+                System.out.println(slot + ", " + product.toString());
+            }
+
+
+        }
+
+
 
 
     }
