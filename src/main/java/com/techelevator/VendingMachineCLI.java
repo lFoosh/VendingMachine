@@ -115,7 +115,16 @@ public class VendingMachineCLI {
 						// get money from user and feed into machine
 						System.out.println("Enter amount to feed into machine: ");
 						String amount = (menu.getUserInput());
-						transaction.feedMoney(amount);
+						double wholeDollar = Double.parseDouble(amount);
+
+						if (wholeDollar % 1 == 0) {
+
+							transaction.feedMoney(amount);
+
+						}else {
+							System.out.println("\nERROR: Please insert a whole dollar amount");
+							System.out.println("Example: 1, 10, 5.00\n");
+						}
 
 					} else if (purchaseChoice.equals(PURCHASE_MENU_OPTION_SELECT_PRODUCT)) {
 

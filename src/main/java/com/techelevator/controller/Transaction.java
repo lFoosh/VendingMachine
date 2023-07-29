@@ -95,6 +95,8 @@ public class Transaction {
         int dimes = 0;
         int nickels = 0;
 
+        BigDecimal startingMoney = currentMoney;
+
         // Determine how many quarters, dimes, and nickels to return
         while (currentMoney.compareTo(new BigDecimal(.25)) >= 0) {
             quarters++;
@@ -110,7 +112,7 @@ public class Transaction {
         }
 
         // Log the returned change
-        log("GIVE CHANGE: ", currentMoney, BigDecimal.valueOf(0));
+        log("GIVE CHANGE: ", startingMoney, currentMoney);
         // Print the returned change
         return  "Change returned: Quarters: " + quarters + ", Dimes: " + dimes + ", Nickels: " + nickels;
     }
@@ -132,10 +134,14 @@ public class Transaction {
             //creates the string that will be written to log.txt
 
 
-            String localTime = String.valueOf(LocalTime.now());
             String localDate = String.valueOf(LocalDate.now());
 
-           String writeToFile = localDate + " " + localTime.substring(0,8) + " " + action + " " + String.format("$%.2f", amount) + " $" + String.format("%.2f", newBalance);
+            LocalTime now = LocalTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss a"); //formats the time so it displays hours, minutes, second, and AM/PM
+            String formattedTime = now.format(formatter);
+
+
+           String writeToFile = localDate + " " + formattedTime + " " + action + " " + String.format("$%.2f", amount) + " $" + String.format("%.2f", newBalance);
 
 
            //adds a new line at the end of each added string
