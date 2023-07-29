@@ -152,8 +152,9 @@ public class VendingMachineCLI {
 					}
 				}
 			} else if (choice.equals(MAIN_MENU_OPTION_SALES_REPORT)) {
+				transaction.salesReport(inventory.getProducts());
 
-				System.out.println("you found me");
+
 
 			} else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
 				// Exit the program

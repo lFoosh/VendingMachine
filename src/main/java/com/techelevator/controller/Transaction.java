@@ -4,8 +4,13 @@ import com.techelevator.model.Product;
 
 import java.io.*;
 import java.math.BigDecimal;
+
+import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Map;
 
 public class Transaction {
@@ -15,6 +20,8 @@ public class Transaction {
     private Inventory inventory;
 
     private int itemsPurchased = 0;
+
+    private BigDecimal totalSales = BigDecimal.ZERO;
 
 
 
@@ -57,6 +64,8 @@ public class Transaction {
                 product.incrementTimesPurchased();
 
 
+
+
                 System.out.println();
             }else{
                 discount = BigDecimal.ZERO;
@@ -65,6 +74,8 @@ public class Transaction {
 
             //double price = product.getPrice() - discount; // this is applying discount for every 2
             BigDecimal price = product.getPrice().subtract(discount);
+
+            totalSales = totalSales.add(price);
 
             currentMoney = currentMoney.subtract(price); // Decrease current money by the product price
 
@@ -119,10 +130,13 @@ public class Transaction {
 
 
             //creates the string that will be written to log.txt
+
+
             String localTime = String.valueOf(LocalTime.now());
             String localDate = String.valueOf(LocalDate.now());
-           // localTime = localDate.substring(0,8);
-           String writeToFile = localDate + " " + localTime+ " " + action + " " + String.format("$%.2f", amount) + " $" + String.format("%.2f", newBalance);
+
+           String writeToFile = localDate + " " + localTime.substring(0,8) + " " + action + " " + String.format("$%.2f", amount) + " $" + String.format("%.2f", newBalance);
+
 
            //adds a new line at the end of each added string
             log.write(writeToFile + "\n");
@@ -136,32 +150,50 @@ public class Transaction {
         }
     }
 
-    public void salesReport(Map<String, Product> inventory){
+    public void salesReport(Map<String, Product> inventory) {
 
         String localTime = String.valueOf(LocalTime.now());
         String localDate = String.valueOf(LocalDate.now());
-        localTime = localDate.substring(0,8);
 
-        try (PrintWriter reportPrint = new PrintWriter(localDate + localTime + "SalesReport");){
+        // Get the current date and time, format it as a string and add it to the filename
+       String filename = localDate + "_" + localTime.substring(0,2)+ "h" + localTime.substring(3,5) + "m" + localTime.substring(6,8) + "s" +"_SalesReport" + ".txt";
+
+        // Create a new file with the above filename
+        File reportFile = new File(filename);
+
+        // Using a FileWriter to write text to the above file. The 'try-with-resources' statement automatically closes the writer
+        try (FileWriter writer = new FileWriter(reportFile, false)) {
+            // This variable will keep track of the total sales
 
 
-            Map<String, Product> products = inventory.getProducts();
+            // Iterate over all products in the inventory
+            for (Product product : inventory.values()) {
+                // Prepare a string for each product with its name and the number of times it was purchased
+                String line = product.getName() + "|" + product.getTimesPurchased() + "|" + product.getPurchasedOnSale() + "\n";
 
-            for (String slot : products.keySet()) {
-                Product product = products.get(slot);
-                // Print each product with formatted price
 
-                System.out.println(slot + ", " + product.toString());
+                // Write this line to the report file
+                writer.write(line);
+
+                // Calculate the total sales of this product and add it to the total sales
+               // totalSales = totalSales.add(product.getPrice().multiply(BigDecimal.valueOf(product.getTimesPurchased() + product.getPurchasedOnSale())));
             }
 
-
+            // After all products have been written, write the total sales to the report file
+            writer.write("\n**TOTAL SALES** $" + totalSales.setScale(2, RoundingMode.HALF_UP));
+        } catch (IOException e) {
+            // If there was a problem writing the file, print an error message
+            System.out.println("Error writing sales report: " + e.getMessage());
         }
-
+    }
 
 
 
     }
-}
+
+
+
+
 
 
 
