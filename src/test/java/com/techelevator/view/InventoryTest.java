@@ -1,9 +1,14 @@
 package com.techelevator.view;
 
 import com.techelevator.controller.Inventory;
+import com.techelevator.model.Drink;
 import com.techelevator.model.Product;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.math.BigDecimal;
 
 import static org.junit.Assert.assertEquals;
 
@@ -31,5 +36,24 @@ public class InventoryTest {
         A1,U-Chews,1.65,Gum
         A2,Ginger Ayle,1.85,Drink
         A3,Snykkers,4.25,Candy*/
+    }
+    /*@Before
+    public void startingInventory() throws IOException{
+        inventory = new Inventory("main");
+
+    }
+
+     */
+    @Test
+    public void testOutOfStockProduct() {
+
+        Product product = new Drink("A1", "NotPepsi", new BigDecimal("2.25"));
+
+        for (int i = 0; i < 5; i++) {
+            product.decreaseQuantity();
+
+        }
+        Assert.assertEquals(0, product.getQuantity());
+
     }
 }

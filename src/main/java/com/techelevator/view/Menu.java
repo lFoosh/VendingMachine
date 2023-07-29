@@ -31,8 +31,9 @@ public class Menu {
     }
 
     private void displayMenuOptions(String[] options) {
-        System.out.println("\n***** Please choose an option *****");
-        for (int i = 0; i < options.length; i++) {
+
+        System.out.println("\n***** Please choose an option *****\n");
+        for (int i = 0; i < 3; i++) {
             System.out.println((i + 1) + ") " + options[i]);
         }
     }

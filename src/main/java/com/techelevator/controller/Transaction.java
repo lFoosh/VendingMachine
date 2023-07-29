@@ -2,17 +2,18 @@ package com.techelevator.controller;
 
 import com.techelevator.model.Product;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 public class Transaction {
     private BigDecimal currentMoney;
     private String logFile = "Log.txt";
 
     private int itemsPurchased = 0;
+
+
 
     public Transaction() {
         this.currentMoney = BigDecimal.valueOf(0.0); // Initialize current money to 0
@@ -49,9 +50,14 @@ public class Transaction {
                 System.out.println("BOGODO Sale!!");
                 System.out.println("You saved $1.00!!");
 
+                product.incrementPurchasedOnSale();
+                product.incrementTimesPurchased();
+
+
                 System.out.println();
             }else{
                 discount = BigDecimal.ZERO;
+                product.incrementTimesPurchased();
             }
 
             //double price = product.getPrice() - discount; // this is applying discount for every 2
@@ -103,22 +109,32 @@ public class Transaction {
 
     // Function to log the transactions
     private void log(String action, BigDecimal amount, BigDecimal newBalance) {
-        // We are using try-with-resources statement, which ensures that each resource is closed at the end of the statement.
-        // FileWriter is used to write character-oriented data to a file.
-        // BufferedWriter writes text to a character-output stream, buffering characters so as to provide for the efficient writing of single characters, arrays, and strings.
-        try (FileWriter fw = new FileWriter(logFile, true);  // We set append to true to write at the end of the file, not erase it.
-             BufferedWriter bw = new BufferedWriter(fw)) {
 
-            // We write to the file the following information: the current date and time, the action performed, the amount of money involved in the transaction, and the new balance after the transaction.
-            // The amounts of money are formatted to have 2 decimal places.
-            bw.write(LocalDateTime.now() + " " + action + " " + String.format("$%.2f", amount) + " $" + String.format("%.2f", newBalance));
-            // We then write a new line to the file so that the next log entry is on a new line.
-            bw.newLine();
 
-            // If an exception happens while writing to the file, it will be caught here and a message will be printed to the console.
+
+        try (FileWriter log = new FileWriter(logFile, true)){
+
+
+            //creates the string that will be written to log.txt
+           String writeToFile = LocalDateTime.now() + " " + action + " " + String.format("$%.2f", amount) + " $" + String.format("%.2f", newBalance);
+
+           //adds a new line at the end of each added string
+            log.write(writeToFile + "\n");
+
+
+
+
+
         } catch (IOException e) {
             System.out.println("Error logging transaction: " + e.getMessage());
         }
+    }
+
+    public void salesReport(Map<String, Product> inventory){
+
+        //for (Product product : inventory)
+
+
     }
 }
 

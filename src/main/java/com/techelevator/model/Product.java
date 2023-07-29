@@ -10,11 +10,16 @@ public abstract class Product {
     private BigDecimal price;
     private int quantity;
 
+    private int timesPurchased;
+    private int purchasedOnSale;
+
     public Product(String slotLocation, String name,BigDecimal price) {
         this.slotLocation = slotLocation;
         this.name = name;
         this.price = price;
         this.quantity = 5;  // Initially stocked to the maximum amount
+        this.timesPurchased = 0;
+        this.purchasedOnSale = 0;
     }
 
     // Getters and Setters
@@ -46,20 +51,38 @@ public abstract class Product {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+
+    public int getTimesPurchased() {
+        return timesPurchased;
+    }
+
+    public void setTimesPurchased(int timesPurchased) {
+        this.timesPurchased = timesPurchased;
+    }
+
+    public int getPurchasedOnSale() {
+        return purchasedOnSale;
+    }
+
+    public void setPurchasedOnSale(int purchasedOnSale) {
+        this.purchasedOnSale = purchasedOnSale;
     }
 
     // Abstract method to get the product-specific message
     public abstract String getMessage();
 
+    public void incrementTimesPurchased() {
+        this.timesPurchased++;
+    }
+    public void incrementPurchasedOnSale() {
+        this.purchasedOnSale++;
+    }
+
     // Method to decrease the quantity of a product
     public void decreaseQuantity() {
         if (quantity > 0) {
             quantity--; // Decrease quantity of product by 1
-        } else {
-            System.out.println("The product is out of stock.");
-        } //TODO Make test to see if product goes out of stock after 5
+        }
     }
     @Override
     public String toString() {

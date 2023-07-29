@@ -54,7 +54,8 @@ public class VendingMachineCLI {
 	private static final String MAIN_MENU_OPTION_DISPLAY_ITEMS = "Display Vending Machine Items";
 	private static final String MAIN_MENU_OPTION_PURCHASE = "Purchase";
 	private static final String MAIN_MENU_OPTION_EXIT = "Exit";
-	private static final String[] MAIN_MENU_OPTIONS = { MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE, MAIN_MENU_OPTION_EXIT };
+	private static final String MAIN_MENU_OPTION_SALES_REPORT = "Sales Report";
+	private static final String[] MAIN_MENU_OPTIONS = { MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE, MAIN_MENU_OPTION_EXIT, MAIN_MENU_OPTION_SALES_REPORT };
 
 	// Create options for purchase menu
 	private static final String PURCHASE_MENU_OPTION_FEED_MONEY = "Feed Money";
@@ -89,7 +90,7 @@ public class VendingMachineCLI {
 		// Main loop for vending machine operation
 		while (true) {
 			// Display main menu and get user's choice
-			String choice = (String)menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
+			String choice = menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
 				// display vending machine items
@@ -104,10 +105,11 @@ public class VendingMachineCLI {
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
 				// enter the purchase menu
 				while (true) {
+
 					// Display current money and purchase menu, get user's purchase choice
 					System.out.println("Current Money Provided: $" + String.format("%.2f", transaction.getCurrentMoney()));
 
-					String purchaseChoice = (String)menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
+					String purchaseChoice = menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
 
 					if (purchaseChoice.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
 						// get money from user and feed into machine
@@ -124,15 +126,16 @@ public class VendingMachineCLI {
 
 						if (productToPurchase != null && productToPurchase.getQuantity() > 0) {
 
-
+							//prints message associated with the type of product
 							String message = productToPurchase.getMessage();
 							System.out.println(message);
 
 							System.out.println("You selected " + productToPurchase.getName() + ". The cost is $" + String.format("%.2f", productToPurchase.getPrice()));
+							//preforms the purchasing process
 							transaction.purchaseItem(productToPurchase);
 
 
-
+						//if the product exists but has a quantity of 0 it means it is out of stock
 						} else if (productToPurchase != null) {
 
 							System.out.println("This item is out of stock!");
@@ -148,9 +151,14 @@ public class VendingMachineCLI {
 						break;
 					}
 				}
+			} else if (choice.equals(MAIN_MENU_OPTION_SALES_REPORT)) {
+
+				System.out.println("you found me");
+
 			} else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
 				// Exit the program
 				System.out.println("Exiting...");
+				System.out.println("Good bye! Have a nice day!");
 				break;
 			} else {
 				System.out.println("Invalid option, please choose a valid option!");

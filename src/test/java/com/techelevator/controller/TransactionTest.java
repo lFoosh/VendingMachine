@@ -34,8 +34,43 @@ public class TransactionTest {
 
     }
 
+    @Test
+    public void testNotEnoughMoney(){
+
+        transaction.feedMoney("1");
 
 
+        Product product = new Drink("A1", "NotPepsi", new BigDecimal("2.25"));
+        transaction.purchaseItem(product);
+        Assert.assertEquals(new BigDecimal("1.0"), transaction.getCurrentMoney());
+
+    }
+
+    @Test
+    public void testBuyingWithoutFeeding(){
+
+        Product product = new Drink("A1", "NotPepsi", new BigDecimal("2.25"));
+        transaction.purchaseItem(product);
+        Assert.assertEquals(new BigDecimal("0.0"), transaction.getCurrentMoney());
+
+    }
+
+    @Test
+    public void testReturnChange() {
+        transaction.feedMoney("2.25");
+
+        Product product = new Drink("A1", "NotPepsi", new BigDecimal("2.25"));
+        transaction.purchaseItem(product);
+
+
+        Assert.assertEquals("Change returned: Quarters: 0, Dimes: 0, Nickels: 0", transaction.returnChange());
+    }
 
 
 }
+
+
+
+
+
+
